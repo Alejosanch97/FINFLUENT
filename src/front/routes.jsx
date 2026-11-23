@@ -1,30 +1,31 @@
-// Import necessary components and functions from react-router-dom.
-
+// Rutas del front. "/" es el Home + login; "/dashboard" es todo lo demás
+// (curso del grado, admin del colegio o super admin, según el rol).
 import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
+    Link,
 } from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
-import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo";
+import { Dashboard } from "./pages/Dashboard";
+
+const NotFound = () => (
+    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", textAlign: "center", padding: 24, fontFamily: "Figtree, system-ui, sans-serif" }}>
+        <div>
+            <h1 style={{ fontWeight: 800 }}>Page not found</h1>
+            <p><Link to="/">Go back to FinFluent</Link></p>
+        </div>
+    </div>
+);
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
-    // CreateRoutesFromElements function allows you to build route elements declaratively.
-    // Create your routes here, if you want to keep the Navbar and Footer in all views, add your new routes inside the containing Route.
-    // Root, on the contrary, create a sister Route, if you have doubts, try it!
-    // Note: keep in mind that errorElement will be the default page when you don't get a route, customize that page to make your project more attractive.
-    // Note: The child paths of the Layout element replace the Outlet component with the elements contained in the "element" attribute of these child paths.
-
-      // Root Route: All navigation will start from here.
-      <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
-
-        {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
-        <Route path= "/" element={<Home />} />
-        <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
-        <Route path="/demo" element={<Demo />} />
-      </Route>
-    )
+        <Route path="/" element={<Layout />} errorElement={<NotFound />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<NotFound />} />
+        </Route>
+    ),
+    { basename: import.meta.env.VITE_BASENAME || "/" }
 );

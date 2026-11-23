@@ -1,81 +1,70 @@
-# WebApp boilerplate with React JS and Flask API
+# FinFluent
 
-Build web applications using React.js for the front end and python/flask for your backend API.
+Educación financiera en inglés (CLIL) para grados 6° a 11°. Un grado = 4 periodos.
+React + Vite en el front, Flask + SQLAlchemy en el back, PostgreSQL (Supabase) como base de datos y Render para publicar.
 
-- Documentation can be found here: https://4geeks.com/docs/start/react-flask-template
-- Here is a video on [how to use this template](https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b)
-- Integrated with Pipenv for package managing.
-- Fast deployment to Render [in just a few steps here](https://4geeks.com/docs/start/deploy-to-render-com).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
+## Roles
 
-### 1) Installation:
+| Rol | Qué hace |
+| --- | --- |
+| `SUPERADMIN` | Crea colegios, define cupos por grado y crea el admin de cada colegio. |
+| `ADMIN` | Admin de **un** colegio: crea estudiantes pegando 3 listas (nombres, usuarios, claves) y ve el progreso y las respuestas por grado. |
+| `STUDENT` | Ve solo el curso de su grado. Al completar los 4 periodos recibe el diploma con el nombre de su colegio. |
 
-> If you use Github Codespaces (recommended) or Gitpod this template will already come with Python, Node and the Posgres Database installed. If you are working locally make sure to install Python 3.10, Node 
+## Probar en local
 
-It is recomended to install the backend first, make sure you have Python 3.10, Pipenv and a database engine (Posgress recomended)
+No necesitas instalar Postgres: sin `DATABASE_URL` se usa un archivo `local.sqlite`.
 
-1. Install the python packages: `$ pipenv install`
-2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure you replace the valudes with your database information:
+```bash
+# 1) dependencias
+pipenv install
+npm install
 
-| Engine    | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgress | postgres://username:password@localhost:5432/example |
+# 2) variables (el zip ya trae un .env de desarrollo; si no existe:)
+cp .env.example .env
 
-4. Migrate the migrations: `$ pipenv run migrate` (skip if you have not made changes to the models on the `./src/api/models.py`)
-5. Run the migrations: `$ pipenv run upgrade`
-6. Run the application: `$ pipenv run start`
+# 3) base de datos + usuarios de prueba
+pipenv run upgrade            # crea las tablas
+pipenv run flask seed         # crea el super admin del .env
+pipenv run flask seed-demo    # colegio demo, un admin y un estudiante por grado
 
-> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
-
-### Undo a migration
-
-You are also able to undo a migration by running
-
-```sh
-$ pipenv run downgrade
+# 4) dos terminales
+pipenv run start              # backend  -> http://localhost:3001
+npm run dev                   # frontend -> http://localhost:3000
 ```
 
-### Backend Populate Table Users
+Usuarios de prueba:
 
-To insert test users in the database execute the following command:
+| Usuario | Clave | Rol |
+| --- | --- | --- |
+| `superadmin` | la de `SUPERADMIN_PASSWORD` en `.env` | Super admin |
+| `admin.demo` | `demo1234` | Admin del colegio demo |
+| `demo6` … `demo11` | `1234` | Estudiante de cada grado |
 
-```sh
-$ flask insert-test-users 5
+Otros comandos: `pipenv run flask set-password USUARIO CLAVE`.
+
+## Dónde está cada cosa
+
+```
+src/api/models.py         tablas (colegios, cupos, usuarios, progreso, juegos)
+src/api/routes.py         login y progreso          /api/auth/*  /api/progress
+src/api/games.py          juegos multijugador       /api/games/<familia>/<accion>
+src/api/admin_routes.py   admin del colegio         /api/admin/*
+src/api/super_routes.py   super admin               /api/super/*
+src/front/api.js          cliente de la API (token, sesión)
+src/front/finFetch.js     puente: las actividades siguen llamando como en Apps Script
+src/front/progressSync.js cola de guardado con reintentos + copia en localStorage
+src/front/persist.js      recuerda la actividad abierta y lo que se estaba escribiendo
+src/front/courses.js      mapa de grados y periodos (dashboard, home, admin, diploma)
+src/front/pages/          Home, Dashboard, AdminPanel, SuperAdmin y los 24 periodos
 ```
 
-And you will see the following message:
+El curso demo de 6 semanas (`Semana1…6.jsx`) se conserva en el repo pero está desactivado
+(ver el bloque comentado al inicio de `Dashboard.jsx`).
 
-```
-  Creating test users
-  test_user1@test.com created.
-  test_user2@test.com created.
-  test_user3@test.com created.
-  test_user4@test.com created.
-  test_user5@test.com created.
-  Users created successfully!
-```
+## Producción
 
-### **Important note for the database and the data inside it**
-
-Every Github codespace environment will have **its own database**, so if you're working with more people eveyone will have a different database and different records inside it. This data **will be lost**, so don't spend too much time manually creating records for testing, instead, you can automate adding records to your database by editing ```commands.py``` file inside ```/src/api``` folder. Edit line 32 function ```insert_test_data``` to insert the data according to your model (use the function ```insert_test_users``` above as an example). Then, all you need to do is run ```pipenv run insert-test-data```.
-
-### Front-End Manual Installation:
-
--   Make sure you are using node version 20 and that you have already successfully installed and runned the backend.
-
-1. Install the packages: `$ npm install`
-2. Start coding! start the webpack dev server `$ npm run start`
-
-## Publish your website!
-
-This boilerplate it's 100% read to deploy with Render.com and Heroku in a matter of minutes. Please read the [official documentation about it](https://4geeks.com/docs/start/deploy-to-render-com).
-
-### Contributors
-
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
-
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
+Un solo servicio web en Render: `render_build.sh` compila el front, crea/actualiza las tablas y
+crea el super admin; Flask sirve la API y el front desde el mismo dominio.
+Variables que se ponen a mano en Render: `DATABASE_URL` (Supabase, *Session pooler*),
+`SUPERADMIN_USER`, `SUPERADMIN_PASSWORD`, `SUPERADMIN_NAME`.

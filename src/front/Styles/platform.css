@@ -1,0 +1,261 @@
+/* =====================================================================
+   FINFLUENT · PLATAFORMA MULTI-COLEGIO
+   Estilos de lo nuevo: selector de grado, crear usuarios en lote,
+   detalle por clase, super admin (colegios y cupos), diploma por colegio
+   y aviso de tablet en vertical. Usa los tokens de dashboard.css.
+   ===================================================================== */
+
+/* ---------- sidebar: colegio y vista previa de curso ---------- */
+.fin-school {
+  display: flex; align-items: center; gap: 7px; margin: -4px 0 12px; padding: 0 12px;
+  color: var(--ink-soft); font-weight: 600; font-size: .82rem; line-height: 1.25;
+}
+.fin-school svg { flex-shrink: 0; color: var(--green-deep); }
+.fin-preview {
+  display: flex; flex-direction: column; gap: 6px; margin: 8px 0 10px; padding: 12px;
+  background: var(--note); border: 1px dashed #d9c26a; border-radius: 14px;
+}
+.fin-preview span { display: inline-flex; align-items: center; gap: 6px; font-size: .76rem; font-weight: 700; color: #6b5200; }
+.fin-preview select {
+  width: 100%; border: 1px solid #d9c26a; background: #fff; border-radius: 10px;
+  padding: 8px 10px; font: inherit; font-weight: 600; font-size: .86rem; color: var(--ink); cursor: pointer;
+}
+
+/* ---------- cargas y errores dentro del área principal ---------- */
+.fin-loading.inline { min-height: 55vh; background: transparent; }
+.soon-inner.boundary { margin: 8vh auto 0; text-align: center; }
+
+/* ---------- aviso: tablet en vertical ---------- */
+.rotate-hint {
+  position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 1200;
+  width: min(680px, calc(100vw - 24px));
+  display: flex; align-items: center; gap: 12px;
+  background: var(--forest); color: #fff; border: 1px solid rgba(245, 178, 62, .5);
+  border-radius: 16px; padding: 10px 12px 10px 14px; box-shadow: var(--shadow-lg);
+}
+.rotate-hint p { margin: 0; flex: 1; font-size: .86rem; line-height: 1.35; color: var(--mint); }
+.rotate-hint p b { color: #fff; }
+.rotate-ico {
+  width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0; display: grid; place-items: center;
+  background: var(--gold); color: var(--forest); animation: rotate-tilt 2.6s ease-in-out infinite;
+}
+@keyframes rotate-tilt { 0%, 55%, 100% { transform: rotate(90deg); } 25%, 40% { transform: rotate(0deg); } }
+.rotate-hint button {
+  flex-shrink: 0; cursor: pointer; border: none; border-radius: 10px; padding: 9px 14px;
+  background: rgba(255, 255, 255, .12); color: #fff; font-weight: 700; font-size: .84rem;
+}
+.rotate-hint button:hover { background: rgba(255, 255, 255, .22); }
+
+/* ---------- diploma: colegio + lo que el estudiante ya sabe hacer ---------- */
+.cert-crest-fallback {
+  width: 76px; height: 76px; margin: 0 auto 10px; border-radius: 22px; display: grid; place-items: center;
+  background: #072a1e; color: #f5b23e;
+}
+.cert-can {
+  list-style: none; margin: 0 auto 30px; padding: 0; max-width: 640px; text-align: left;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px;
+}
+.cert-can li {
+  display: flex; gap: 9px; align-items: flex-start;
+  color: #24382f; font-size: .9rem; line-height: 1.4; font-weight: 600;
+}
+.cert-can li svg { flex-shrink: 0; margin-top: 3px; color: #0b7a50; }
+.cert .cert-foot { max-width: 640px; align-items: flex-end; }
+.cert-seal {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;
+  width: 128px; padding: 12px 8px; border-radius: 50%; aspect-ratio: 1; justify-content: center;
+  background: #072a1e; color: #fff; outline: 2px solid #f5b23e; outline-offset: 3px;
+}
+.cert-seal-mark { color: #f5b23e; line-height: 0; }
+.cert-seal b { font-family: var(--font-display, Georgia, serif); font-size: .98rem; letter-spacing: -.01em; }
+.cert-seal small { font-size: .56rem; line-height: 1.25; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #bdeed7; }
+@media (max-width: 640px) {
+  .cert-can { grid-template-columns: 1fr; }
+  .cert .cert-foot { flex-direction: column; align-items: center; gap: 20px; }
+}
+
+/* =====================================================================
+   ADMIN DEL COLEGIO
+   ===================================================================== */
+.adm-notice {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(22, 176, 116, .12); color: var(--green-deep); border: 1px solid rgba(22, 176, 116, .35);
+  padding: 12px 16px; border-radius: 12px; font-weight: 600;
+}
+.adm-error.col { flex-direction: column; align-items: flex-start; }
+.adm-error.col b { display: inline-flex; align-items: center; gap: 8px; }
+.adm-error.col ul { margin: 0; padding-left: 20px; font-weight: 500; }
+.adm-btn.danger { color: #b8382a; }
+.adm-btn.danger:hover:not(:disabled) { border-color: var(--coral); color: #a8321f; background: rgba(255, 107, 87, .07); }
+.adm-link {
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer; align-self: flex-start;
+  background: none; border: none; padding: 4px 0; color: var(--green-deep); font-weight: 700; font-size: .84rem;
+}
+.adm-link:hover:not(:disabled) { text-decoration: underline; }
+.adm-link:disabled { opacity: .45; cursor: default; }
+.adm-link.danger { color: #b8382a; }
+.adm-help { margin: 0 0 16px; color: var(--ink-soft); line-height: 1.55; max-width: 90ch; }
+
+/* selector de grado con cupos */
+.adm-grades { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.adm-grade {
+  cursor: pointer; text-align: left; display: flex; flex-direction: column; gap: 2px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px;
+  color: var(--ink); box-shadow: var(--shadow-sm); transition: border-color .15s, transform .15s;
+}
+.adm-grade:hover { border-color: var(--green); transform: translateY(-1px); }
+.adm-grade b { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; line-height: 1; letter-spacing: -.03em; }
+.adm-grade span { font-weight: 600; font-size: .8rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.adm-grade em { font-style: normal; font-size: .74rem; font-weight: 700; color: var(--muted); margin-top: 6px; font-variant-numeric: tabular-nums; }
+.adm-grade i { display: block; height: 5px; border-radius: 999px; background: var(--bg-2); overflow: hidden; margin-top: 4px; }
+.adm-grade i u { display: block; height: 100%; background: var(--green); border-radius: 999px; text-decoration: none; }
+.adm-grade.empty { opacity: .62; }
+.adm-grade.on { background: var(--forest); border-color: var(--forest); color: #fff; opacity: 1; }
+.adm-grade.on span { color: var(--mint); }
+.adm-grade.on em { color: rgba(255, 255, 255, .7); }
+.adm-grade.on i { background: rgba(255, 255, 255, .16); }
+.adm-grade.on i u { background: var(--gold); }
+
+.adm-weeks.four { grid-template-columns: repeat(4, 1fr); }
+.adm-table tbody tr.paused { opacity: .55; }
+
+/* formulario corto (editar estudiante) */
+.adm-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; align-items: end; }
+.adm-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.adm-field > span { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; font-weight: 700; color: var(--muted); }
+.adm-field input, .adm-field select, .sup-admin-new input, .adm-inline input {
+  width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 11px;
+  padding: 10px 12px; font: inherit; color: var(--ink);
+}
+.adm-field input:focus, .adm-field select:focus, .sup-admin-new input:focus, .adm-inline input:focus,
+.adm-bulk-grid textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(22, 176, 116, .16); }
+
+/* crear usuarios en lote */
+.adm-bulk { border-color: var(--green); }
+.adm-bulk-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 14px; }
+.adm-bulk-grid label { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.adm-bulk-grid label > span:first-child { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: .86rem; color: var(--ink); }
+.adm-bulk-grid em {
+  font-style: normal; font-size: .76rem; font-weight: 800; min-width: 26px; text-align: center;
+  background: var(--bg-2); color: var(--ink-soft); border-radius: 999px; padding: 2px 8px; font-variant-numeric: tabular-nums;
+}
+.adm-bulk-grid em.bad { background: rgba(255, 107, 87, .18); color: #a8321f; }
+.adm-bulk-grid textarea {
+  min-height: 230px; resize: vertical; white-space: pre; overflow: auto;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .86rem; line-height: 1.6; color: var(--ink);
+}
+.adm-inline { display: flex; gap: 8px; align-items: center; }
+.adm-inline .adm-link { align-self: center; white-space: nowrap; }
+.adm-bulk-foot { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
+.adm-bulk-foot .adm-field { width: 150px; }
+.adm-bulk-status { flex: 1; min-width: 200px; font-weight: 700; font-size: .88rem; padding-bottom: 10px; }
+.adm-bulk-status .bad { color: #b8382a; }
+.adm-bulk-status .ok { color: var(--green-deep); }
+.adm-preview {
+  display: flex; flex-direction: column; gap: 4px; margin-top: 14px; padding: 12px 14px;
+  background: var(--bg); border-radius: 12px; font-size: .86rem; color: var(--ink-soft);
+}
+.adm-preview b { color: var(--ink); }
+
+/* detalle del estudiante: una sección por clase */
+.adm-class { display: flex; flex-direction: column; gap: 12px; }
+.adm-class-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  margin-top: 8px; padding-bottom: 8px; border-bottom: 2px solid var(--forest);
+}
+.adm-class-head h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; letter-spacing: -.01em; }
+.adm-class-head span { color: var(--muted); font-weight: 700; font-size: .84rem; }
+.adm-class .adm-chips { margin-top: 0; }
+.adm-resp-head h3 { display: inline-flex; align-items: center; gap: 7px; }
+.adm-resp .ok-ico { color: var(--green-deep); flex-shrink: 0; }
+.adm-resp { overflow-wrap: anywhere; }
+.adm-img { display: block; max-width: min(100%, 420px); border-radius: 12px; border: 1px solid var(--line); }
+
+/* en qué se equivocó */
+.adm-missed {
+  display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; padding: 12px 14px;
+  background: rgba(255, 107, 87, .07); border: 1px solid rgba(255, 107, 87, .28); border-radius: 12px;
+}
+.adm-missed > b { color: #a8321f; font-size: .88rem; }
+.adm-missed-item { display: flex; flex-direction: column; gap: 3px; padding-top: 8px; border-top: 1px dashed rgba(255, 107, 87, .35); }
+.adm-missed-item p { margin: 0; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.adm-missed-item span { display: inline-flex; align-items: center; gap: 6px; font-size: .86rem; font-weight: 600; }
+.adm-missed-item .wrong { color: #b8382a; }
+.adm-missed-item .right { color: var(--green-deep); }
+
+/* =====================================================================
+   SUPER ADMIN · colegios, cupos y admins
+   ===================================================================== */
+.sup-form { display: flex; flex-direction: column; gap: 16px; border-color: var(--green); }
+.sup-form .adm-resp-head { margin-bottom: 0; }
+.sup-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.sup-grid.three { grid-template-columns: repeat(3, 1fr); }
+.sup-grid .wide { grid-column: 1 / -1; }
+.sup-logo > div { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.sup-logo img, .sup-logo i, .sup-school-head > img, .sup-school-head > i {
+  width: 52px; height: 52px; border-radius: 13px; flex-shrink: 0; object-fit: contain;
+  display: grid; place-items: center; background: var(--bg); color: var(--muted); border: 1px solid var(--line);
+}
+.sup-logo label.adm-btn { margin: 0; }
+.sup-sub { margin: 6px 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.sup-sub em { font-style: normal; font-family: var(--font-body); font-weight: 600; font-size: .82rem; color: var(--muted); }
+.sup-quotas { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.sup-quotas label { display: flex; flex-direction: column; gap: 5px; background: var(--bg); border-radius: 13px; padding: 10px; }
+.sup-quotas span { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
+.sup-quotas input {
+  width: 100%; border: 1px solid var(--line); border-radius: 9px; padding: 8px; font: inherit; font-weight: 700;
+  font-variant-numeric: tabular-nums; text-align: center; background: var(--surface); color: var(--ink);
+}
+.sup-quotas input:focus { outline: none; border-color: var(--green); }
+.sup-check { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: var(--ink-soft); font-weight: 600; font-size: .9rem; line-height: 1.4; }
+.sup-check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--green-deep); flex-shrink: 0; }
+.sup-check span svg { vertical-align: -2px; }
+.sup-submit { display: flex; justify-content: flex-end; }
+
+.sup-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr)); gap: 16px; }
+.sup-school { display: flex; flex-direction: column; gap: 16px; }
+.sup-school.off { background: var(--bg); }
+.sup-school.off .sup-seats, .sup-school.off .sup-school-head > img { opacity: .55; }
+.sup-school-head { display: flex; align-items: center; gap: 14px; }
+.sup-school-head > div { flex: 1; min-width: 0; }
+.sup-school-head h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: -.015em; line-height: 1.15; }
+.sup-school-head p { margin: 3px 0 0; color: var(--muted); font-weight: 600; font-size: .84rem; }
+.sup-seats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.sup-seats > div { display: flex; flex-direction: column; gap: 4px; background: var(--bg); border-radius: 12px; padding: 9px 10px; }
+.sup-seats > div.none { opacity: .45; }
+.sup-seats b { font-family: var(--font-display); font-weight: 800; font-size: 1rem; line-height: 1; }
+.sup-seats i { display: block; height: 5px; border-radius: 999px; background: var(--bg-2); overflow: hidden; }
+.sup-seats i u { display: block; height: 100%; background: var(--green); border-radius: 999px; }
+.sup-seats span { font-size: .74rem; font-weight: 700; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.sup-admins { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border: 1px dashed var(--rule); border-radius: 13px; }
+.sup-admin { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.sup-admin-who { flex: 1; min-width: 180px; display: inline-flex; align-items: center; gap: 6px; color: var(--ink-soft); font-size: .88rem; font-weight: 500; }
+.sup-admin-who b { color: var(--ink); }
+.sup-admin-who svg { color: var(--green-deep); flex-shrink: 0; }
+.sup-admin .adm-link { align-self: center; }
+.sup-admin-new { display: grid; grid-template-columns: repeat(3, 1fr) auto auto; gap: 8px; align-items: center; }
+.sup-admin-new .adm-link { align-self: center; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .adm-grades { grid-template-columns: repeat(3, 1fr); }
+  .adm-bulk-grid { grid-template-columns: 1fr; }
+  .adm-bulk-grid textarea { min-height: 150px; }
+}
+@media (max-width: 760px) {
+  .adm-weeks.four { grid-template-columns: repeat(2, 1fr); }
+  .adm-grades { grid-template-columns: repeat(2, 1fr); }
+  .sup-grid, .sup-grid.three { grid-template-columns: 1fr; }
+  .sup-quotas, .sup-seats { grid-template-columns: repeat(3, 1fr); }
+  .sup-admin-new { grid-template-columns: 1fr; }
+  .adm-student-kpis { width: 100%; }
+  .adm-student-kpis span { flex: 1; min-width: 0; }
+  .rotate-hint p { font-size: .8rem; }
+}
+
+/* contraste sobre fondos oscuros */
+.adm-student .adm-status.active, .adm-student .adm-status.idle { background: rgba(255, 255, 255, .14); color: #fff; }
+.adm-student .adm-status.never { background: rgba(255, 107, 87, .28); color: #ffd9d2; }
+.adm-tab.on .adm-pill.partial { background: var(--gold); color: #3a2704; }
+.adm-tab.on .adm-pill.zero { background: rgba(255, 255, 255, .14); color: #fff; }
